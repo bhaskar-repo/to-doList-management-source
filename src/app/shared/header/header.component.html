@@ -1,0 +1,59 @@
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+    
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link font-weight-bold text-primary" (click) = "navigateToHome()"><img src="assets/title.png"> To Do List Management<span class="sr-only">(current)</span></a>
+          </li>
+      <li class="nav-item active">
+        <a class="nav-link" (click) = "navigateToHome()">Home <i class="fas fa-home"></i><span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" (click) = "navigateToUserRequests()">requests <i class="fas fa-user-friends"><span class="badge badge-light ml-2">{{requestCount}}</span></i></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" (click) = "navigateToUserActivities()">Activities <i class="fas fa-bell"><span class="badge badge-light ml-2">{{activityCount}}</span></i></a>
+      </li>
+      <li class="nav-item active">
+          <a class="nav-link" (click)="navigateToFindFriends()">find friends <i class="fas fa-users"><span class="badge badge-light ml-2"></span></i></a>
+        </li>
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>  {{userName}}</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown08">
+          <a class="dropdown-item" (click)="navigateToUserProfile()">profile</a>
+          <a class="dropdown-item" (click)="navigateToFriends()">Friends</a>
+          <a class="dropdown-item" (click)="logOut()">Log out</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="findFriendsmodal" tabindex="-1" role="dialog" aria-labelledby="findFriendsLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findFriendsLabel">Find Friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let user of usersData;let i = index" (click)="onSelectUser(user)" data-dismiss="modal"> 
+              <app-first-char [firstChar]="user.fullName[0]"></app-first-char>
+              <label>{{user.fullName}} {{user.countryName}}</label>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+li:hover {
+    background: green;
+    cursor: pointer;
+}
+
+.site-header {
+    background-color: rgba(0, 0, 0, .85);
+    
+  }
+
+a:hover{
+    background: none;
+}
+
+img {
+    height: 20px;
+    width: 20px;
+}

@@ -1,0 +1,40 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <header>
+    <app-header [userName]="userName"></app-header>
+  </header>
+  <main role="main">
+    <div class="container-fluid">
+      <div class="row shadow-lg">
+        <div class="col-sm">
+          <ul class="list-group">
+            <li class="list-group-item" *ngIf="requests.length === 0">You have no friend requests</li>
+            <li class="list-group-item" *ngFor="let request of requests;let i = index">
+              <div class="d-flex flex-row flex-wrap">
+                <div class="flex-fill">
+                  <form class="form-inline">
+                    <app-first-char [firstChar]="request.userName[0]"></app-first-char>
+                    <label class="ml-2">{{request.userName}} <br> <span class="text-muted">{{request.countryName}}</span></label>
+                    
+                  </form>
+                </div>
+                <div class="flex-fill d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary btn-sm" (click) = "acceptFriendRequest(request)">Accept</button>
+                  <button type="button" class="btn btn-danger btn-sm ml-2" (click) = "cancelFriendRequest(request)">Cancel</button>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

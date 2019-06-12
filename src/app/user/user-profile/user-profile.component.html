@@ -1,0 +1,36 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <header>
+    <app-header [userName]="userName"></app-header>
+  </header>
+  <main role="main">
+    <div class="card m-auto p-4 mr-auto" *ngIf="currentUser">
+      
+      
+      <div class="card-body">
+          <app-first-char [firstChar]="currentUser.fullName[0]"></app-first-char>
+          <h5 class="card-title font-weight-bold">{{currentUser.fullName}}</h5>
+        
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Country: {{currentUser.countryName}}</li>
+        <li class="list-group-item">Email: {{currentUser.email}}</li>
+        <li class="list-group-item">Mobile: ({{currentUser.countryPhoneCode}})  {{currentUser.mobileNumber}}</li>
+      </ul>
+      <div class="card-body" *ngIf = "isCurrentUserProfile">
+        <button class="btn btn-primary btn-sm" *ngIf="!isRequestSent && !this.isAlreadyFriend && !isRequestReceived" (click) = "updateSentRequest()">Send Request</button>
+        <button class="btn btn-primary btn-sm" *ngIf="isRequestSent"  disabled>Request Sent</button>
+        <button class="btn btn-primary btn-sm" *ngIf="isRequestReceived"  disabled>Request Received</button>
+        <button class="btn btn-primary btn-sm" *ngIf="isAlreadyFriend"  disabled>friend</button>
+        <button class="btn btn-secondary btn-sm ml-2" (click) = "goBack()">Back</button>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

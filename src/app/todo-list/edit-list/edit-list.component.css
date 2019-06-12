@@ -1,0 +1,29 @@
+
+:root {
+    font-size: 1rem;
+}
+
+body {
+    background: lightslategrey;
+    height: 650px;
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
+
+.list-div {
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+ul li:hover {
+    background: lightgreen;
+}
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+  }
+  
+.ng-invalid:not(form)  {
+    border-left: 5px solid #a94442; /* red */
+  }

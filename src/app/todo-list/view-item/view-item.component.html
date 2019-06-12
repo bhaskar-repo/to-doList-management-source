@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <header>
+    <app-header [userName]="userName"></app-header>
+  </header>
+  <main role="main">
+    <div class="card" *ngIf="currentItem">
+      <div class="card-body">
+        <h5 class="card-title">{{currentItem.title}}</h5>
+        <p class="card-text" *ngIf="currentItem.description">{{currentItem.description}}</p>
+        <p class="card-text" *ngIf="!currentItem.description">no description added</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="row flex-wrap">
+            <div class="col-sm font-weight-bold">
+              Start Date:
+            </div>
+            <div class="col-sm d-flex justify-content-end text-primary">
+              {{currentItem.startDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row flex-wrap">
+            <div class="col-sm font-weight-bold">
+              Due Date:
+            </div>
+            <div class="col-sm d-flex justify-content-end text-primary">
+              {{currentItem.dueDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row flex-wrap">
+            <div class="col-sm font-weight-bold">
+              end Date:
+            </div>
+            <div class="col-sm d-flex justify-content-end text-primary">
+              {{currentItem.endDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row flex-wrap">
+              <div class="col-sm font-weight-bold">
+                status: 
+              </div>
+              <div class="col-sm d-flex justify-content-end text-primary">
+                <label *ngIf="currentItem.isDone" class="text-success">COMPLETED</label>
+                <label *ngIf="currentItem.isOpen" class="text-primary">OPEN</label>
+              </div>
+            </div>
+          </li>
+      </ul>
+      <div class="card-body">
+        <button class="btn btn-secondary btn-sm" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

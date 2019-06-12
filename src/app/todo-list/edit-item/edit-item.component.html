@@ -1,0 +1,131 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <header>
+    <app-header [userName]="userName"></app-header>
+  </header>
+  <main role="main">
+    <div class="container-fluid">
+      <!-- start of edit item form -->
+      <div class="bg-white">
+        <div #scrollMainDiv *ngIf="currentItem" class="main-div">
+          <form #editItemForm="ngForm" class="shadow-lg p-2">
+            <div class="form-group">
+              <label for="titleInput">Title*</label>
+              <input type="text" class="form-control" id="titleInput" name="title" [(ngModel)]="currentItem.title"
+                #titleAttr="ngModel" placeholder="Enter Title" required>
+            </div>
+
+            <div class="form-group">
+              <input [min]="min" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Due Date Time"
+                class="form-control" name="date" [(ngModel)]="currentItem.dueDate" #dateAttr="ngModel" required>
+              <owl-date-time [pickerMode]="dialog" [showSecondsTimer]="true" #dt2></owl-date-time>
+            </div>
+
+            <div class="form-group">
+              <label for="descInput">Description*</label>
+              <textarea type="text" rows="6" class="form-control" id="descInput" name="description"
+                [(ngModel)]="currentItem.description" #descAttr="ngModel" placeholder="Enter Description"
+                required></textarea>
+            </div>
+
+             <div class="form-group">
+              <input type="file" name="fileName" single ng2FileSelect [uploader] = "uploader">
+              <a href="{{currentItem.fileLocation}}" *ngIf="currentItem.fileName !== '' " class="ml-5">{{currentItem.fileName}}</a>
+              <label *ngIf="currentItem.fileName === ''" class="ml-5">no file found</label>
+             </div>
+
+             <div class="form-group" *ngIf="uploader.queue.length > 0">
+               <button type="button" class="btn btn-primary btn-sm" (click)="uploadFile()">Upload</button>
+               <button type="button" class="btn btn-danger btn-sm ml-2" (click)="uploader.queue[0].remove()">Cancel</button>
+               <div class="progress mt-2">
+                  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(uploader.progress/100) * 100 + '%'" [attr.aria-valuenow]="uploader.progress" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+             </div>
+
+            <div class="row">
+              <div class="col-sm">
+                <button type="submit" class="btn btn-primary btn-sm" [disabled]="!editItemForm.form.valid || uploader.isUploading"
+                  (click)="editItemInList()">Submit</button>
+              </div>
+
+            </div>
+          </form>
+          <!-- end of edit item form -->
+          <div #scrollMe class="d-flex flex-row flex-wrap list-div"
+            [scrollTop]="(scrollSubItemToTop) ? 0 : scrollMe.scrollHeight">
+            <div class="flex-fill m-2">
+              <ul class="list-group shadow-lg">
+                <li class="list-group-item" *ngIf="currentItem.subitemsList.length === 0">No Sub Items added</li>
+                <li class="list-group-item" *ngFor="let subItem of currentItem.subitemsList;let i = index">
+                  <div class="d-flex flex-row flex-wrap">
+                    <div class="flex-fill">
+                      <div class="form-check" *ngIf="!subItem.isDone">
+                        <input type="checkbox" class="form-check-input" id="subItemCheck" name="isDone"
+                          [(ngModel)]="subItem.isDone" #isDoneSubItemAtttr="ngModel"
+                          (change)="markSubItemDone(subItem)">
+                        <label class="form-check-label" for="subItemCheck">{{subItem.title}}</label>
+                      </div>
+                      <div *ngIf="subItem.isDone">
+                        <i class="fas fa-check text-success">{{subItem.title}}</i>
+                      </div>
+                    </div>
+                    <div class="flex-fill d-flex justify-content-end" *ngIf="!subItem.isDone">
+                      <button title="delete item" class="btn btn-sm" (click)="deleteSubItemFromItemsList(subItem)"><i
+                          class="fas fa-trash-alt"></i></button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="d-flex flex-row flex-wrap">
+          <div class="flex-fill m-2">
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#subItemTitleModal"
+              (click)="onAddSubItemBtn()"><i class="fas fa-plus"></i> Add Sub Item</button>
+          </div>
+          <div class="flex-fill m-2 d-flex justify-content-end">
+            <button class="btn btn-secondary btn-sm" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- start of sub item title modal -->
+      <div class="modal fade" id="subItemTitleModal" tabindex="-1" role="dialog" aria-labelledby="subItemTitleLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="subItemTitleLabel">Sub Item Title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="titleInputSubItem">Sub Item Title*</label>
+                <input id="titleInputSubItem" class="form-control" type="text" name="subItemTitle"
+                  placeholder="Sub Item Title" [(ngModel)]="subItemTitle" #titleSubItemAttr="ngModel" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="titleSubItemAttr.invalid"
+                (click)="addSubItemToItemsList()">Accept</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of sub item title modal -->
+    </div>
+  </main>
+</body>
+
+</html>

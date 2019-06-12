@@ -1,0 +1,42 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <header>
+    <app-header [userName]="userName"></app-header>
+  </header>
+  <main role="main">
+    <div class="container-fluid">
+      <div class="row shadow-lg">
+        <div class="col-sm">
+          <ul class="list-group">
+            <li class="list-group-item" *ngIf="friends.length === 0">no friends found</li>
+            <li class="list-group-item" *ngFor="let friend of friends;let i = index">
+              <div class="d-flex flex-row flex-wrap">
+                <div class="flex-fill">
+                  <form class="form-inline">
+                    <app-first-char [firstChar]="friend.userName[0]"></app-first-char>
+                    <label class="ml-2">{{friend.userName}} <br> <span
+                        class="text-muted">{{friend.countryName}}</span></label>
+                  </form>
+                </div>
+                <div class="flex-fill d-flex justify-content-end">
+                  <i class="fas fa-list-ul" title="go to list" (click)="navigateToFriendList(friend.userId)"></i>
+                  <i class="fas fa-user-alt ml-2" title="go to profile" (click)="navigateToFriendRofile(friend.userId)"></i>
+                  <i class="fas fa-bell ml-2" title="go to activities" (click)="navigateToUserActivities(friend.userId)"></i>
+                </div>
+
+              </div>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

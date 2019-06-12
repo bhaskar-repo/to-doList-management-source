@@ -1,0 +1,60 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <main role="main">
+    <div class="container-fluid">
+      <form #signupForm="ngForm" class="form-width shadow-lg p-3 mt-5 bg-white rounded border border-info">
+        <div class="row">
+          <div class="col-sm font-weight-bold">
+              <label class="mb-3">Sign Up</label>
+          </div>
+          <div class="col-sm d-flex justify-content-end">
+              <button type="button" class="btn btn-outline-secondary btn-sm mb-2" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+          </div>   
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group col-sm-6">
+            <label for="inputFirstName">First Name*</label>
+            <input type="text" class="form-control" id="inputFirstName" placeholder="Fisrt Name" name="firstName" [(ngModel)]="firstName" #firstNameAttr="ngModel" required>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="inputLastName">Last Name*</label>
+            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" name="lastName" [(ngModel)]="lastName" #lastNameAttr="ngModel" required>
+          </div>
+        </div>
+        
+          <div class="form-group">
+            <label for="inputEmail4">Email*</label>
+            <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email" [(ngModel)]="email" #emailAttr="ngModel" required>
+          </div>
+        
+        <div class="form-group">
+            <label for="inputPassword4">Password*</label>
+            <input type="password" class="form-control" id="inputPassword4" placeholder="Password" name="password" [(ngModel)]="password" #passwordAttr="ngModel" required>
+            <small id="passwordhelp" class="form-text text-muted">Note: Minimum 8 characters which contain only characters,numeric digits, underscore and first character must be a letter.</small>
+          </div>
+        <div class="form-group">
+          <label for="inputCountry">Country*</label>
+          <select id="inputCountry" class="form-control" name="country" [(ngModel)]="countryCode" #countryAttr="ngModel" required (change)="onCountryChange(countryCode)">
+           <option *ngFor="let currentCountry of countryNamesObj" [value]="currentCountry.countryCode">{{currentCountry.countryName}}</option>
+          </select>
+        </div>
+        <div class="input-group mb-2">
+          <label class="sr-only" for="inputMobileNumber">Mobile Number*</label>
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{countryPhoneCode}}</div>
+          </div>
+          <input type="number" class="form-control" id="inputMobileNumber" placeholder="Mobile Number" name="mobileNumber" [(ngModel)]="mobileNumber" #mobileNumberAttr="ngModel" onkeydown="if(this.value.length == 10 && event.keyCode!=8) return false;" min="1000000000" max="9999999999" required>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!signupForm.form.valid" (click)="signUp()">Sign Up</button>
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>

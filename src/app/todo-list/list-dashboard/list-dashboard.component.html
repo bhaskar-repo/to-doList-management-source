@@ -1,0 +1,150 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <header>
+    <app-header [userName]="userName"></app-header>
+  </header>
+  <main role="main">
+    <div class="container-fluid">
+      <div class="shadow-lg bg-white">
+        <div class="row">
+          <div class="col-sm m-2 font-weight-bold">
+            <i class="fas fa-inbox"></i> List Inbox
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <div #scrollMe class="accordion" id="listAccordionPanel"
+              [scrollTop]="(scrollToListTop) ? 0 : scrollMe.scrollHeight">
+              <div class="card" *ngFor="let listObj of toDolists; let i = index">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <div class="d-flex flex-row flex-wrap">
+                      <div class="flex-fill">
+                        <button class="btn btn-link btn-sm" type="button" data-toggle="collapse"
+                          [attr.data-target]="'#collapse'+i" aria-expanded="true" aria-controls="collapseOne">
+                          <i class="fas fa-list-ul"></i>
+                          {{listObj.title | uppercase}}
+                        </button>
+                      </div>
+                      <div class="flex-fill d-flex justify-content-end">
+                        <button title="edit List" class="btn btn-sm"
+                          (click)="navigateToEditList(listObj.id)"><i
+                            class="fas fa-pencil-alt"></i></button>
+                        <button title="delete list" class="btn btn-sm" data-toggle="modal"
+                          data-target="#confirmDeleteList" (click)="selectedList(listObj)"><i
+                            class="fas fa-trash-alt"></i></button>
+                      </div>
+                    </div>
+                  </h2>
+                </div>
+
+                <div [attr.id]="'collapse'+i" class="collapse in" aria-labelledby="headingOne"
+                  data-parent="#listAccordionPanel">
+                  <div class="card-body">
+                    <ul class="list-group shadow-lg">
+                      <li class="list-group-item" *ngIf="listObj.itemsList.length === 0">No Items added</li>
+                      <li class="list-group-item" *ngFor="let item of listObj.itemsList;let j = index">
+                        <div class="d-flex flex-row flex-wrap">
+                          <div class="flex-fill" *ngIf="!item.isDone">
+                            <button class="btn btn-link">{{item.title}}</button>
+                          </div>
+                          <div *ngIf="item.isDone">
+                              <i class="fas fa-check text-success">{{item.title}}</i>
+                            </div>
+                          <div class="flex-fill d-flex justify-content-end">
+                            <button title="view item" class="btn btn-sm"
+                              (click)="navigateToViewItem(listObj.id, item.itemId)"><i
+                                class="fas fa-eye"></i></button>
+                          </div>
+                        </div>
+                        <ul class="list-group">
+                          <li class="list-group-item" *ngIf="item.subitemsList.length === 0">No Sub Items added</li>
+                          <li class="list-group-item" *ngFor="let subItem of item.subitemsList;let k = index">
+                            <div class="d-flex flex-row flex-wrap">
+                              <div class="flex-fill" *ngIf="!subItem.isDone">
+                                <button class="btn btn-link">{{subItem.title}}</button>
+                              </div>
+                              <div *ngIf="subItem.isDone">
+                                  <i class="fas fa-check text-success">{{subItem.title}}</i>
+                                </div>
+                            </div>
+
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <button class="btn btn-primary m-2 btn-sm" [hidden]="createListBtnFlg" data-toggle="modal" data-target="#listTitleModal"
+              (click)="onCreateNewList()">Create New
+              List</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="listTitleModal" tabindex="-1" role="dialog" aria-labelledby="listTitleLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="listTitleLabel">List Title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="titleInput">Title*</label>
+                <input id="titleInput" class="form-control" type="text" name="title" placeholder="List Title"
+                  [(ngModel)]="title" #titleAttr="ngModel" maxlength="20" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="titleAttr.invalid"
+                (click)="createNewList()">Accept</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end of modal dialog list-->
+
+      <!-- start of confirmation modal -->
+
+      <div class="modal fade" id="confirmDeleteList" tabindex="-1" role="dialog"
+        aria-labelledby="confirmDeleteListLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteListLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure, want to delete the list?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteList()">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- end of confirmation modal -->
+    </div>
+  </main>
+</body>
+
+</html>
