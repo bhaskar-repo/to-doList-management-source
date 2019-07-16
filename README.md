@@ -10,6 +10,22 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+## running locally
+ 
+ 1. create new folder in your system
+ 2. open that folder in cmd or linux terminal and execute following commands in sequence.
+ 
+ ```
+ > git init
+ > git remote add origin https://github.com/bhaskar-repo/to-doList-management-source.git
+ > git pull origin master
+ > npm install
+ ```
+ above commands will pull project to your newly created folder. and npm install will add project dependencies.
+```
+ > ng serve --open
+```
+
 ## More About Application
 
 TO DO LIST MANAGEMENT SYSTEM
